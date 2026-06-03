@@ -9,3 +9,4 @@ urlpatterns = [
     path('orders/', OrderManageAPIView.as_view()),
     path('orders/<int:order_id>/', OrderManageAPIView.as_view()),
 ]
+

@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 class User(AbstractUser):
-
+    avatar_url = models.URLField(max_length=500, blank=True, null=True)
+    
     email = models.EmailField(unique=True)
     
     is_verified = models.BooleanField(default=False)

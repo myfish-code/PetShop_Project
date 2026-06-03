@@ -1,0 +1,84 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    height: 4rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #16a34a;
+    text-decoration: none;
+}
+
+.searchContainer {
+    flex: 1;
+    max-width: 448px;
+    margin: 0 2rem;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 2px solid #16a34a;
+    border-radius: 9999px;
+    outline: none;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon {
+    stroke: #374151;
+    stroke-width: 2;
+}
+
+.iconButton {
+    display: flex;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.cartButton {
+    display: flex;
+    padding: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.cartBadge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.75rem;
+    color: white;
+    background: #ef4444;
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .searchContainer {
+        display: none;
+    }
+}

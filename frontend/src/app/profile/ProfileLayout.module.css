@@ -1,0 +1,88 @@
+
+
+.layout {
+    display: flex;
+    gap: 40px;
+    padding: 40px 20px;
+    margin: 0 auto;
+    min-height: 80vh;
+}
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav a {
+    padding: 12px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #555; /* Мягкий серый для неактивных */
+    font-weight: 500;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+/* Ховер: при наведении цвет становится глубже */
+.nav a:hover {
+    background-color: #f0f4ff; /* Очень легкий голубоватый фон */
+    color: #2563eb;           /* Яркий синий цвет текста */
+}
+
+/* Активное состояние: выделяем цветом и контуром */
+.active {
+    background-color: #ebf2ff !important; /* Явный синий фон */
+    color: #2563eb !important;           /* Яркий синий текст */
+    border: 1px solid #bfdbfe !important; /* Легкая рамка */
+    font-weight: 600;
+}
+
+.content {
+    flex: 1;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+}
+
+/* Адаптив для телефонов */
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+        padding-bottom: 80px; /* Отступ для нижнего меню */
+    }
+
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-top: 1px solid #eee;
+        padding: 10px;
+        z-index: 100;
+    }
+
+    .nav {
+        flex-direction: row;
+        justify-content: space-around; /* Кнопки равномерно по ширине */
+    }
+
+    .nav a {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 450px) {
+    .nav a {
+        font-size: 0.7rem;
+        
+    }
+}

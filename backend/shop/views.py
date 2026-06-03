@@ -4,12 +4,13 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from shop.models import Product, Category, Cart, CartItem, Order, OrderItem
 from shop.serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer, OrderListSerializer
 
 class ProductListAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         products = Product.objects.filter(is_available=True)
 
@@ -31,6 +32,7 @@ class ProductListAPIView(APIView):
 
 
 class ProductDetailAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug, is_available=True)
         
