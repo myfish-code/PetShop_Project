@@ -1,0 +1,24 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 0px;
+}
+
+.ordersList {
+    margin-top: 20px;
+}
+
+.emptyMessage {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.filterWrapper {
+    /* Принудительно задаем поведение для фильтра на этой странице */
+    width: 100%;
+    margin-bottom: 24px;
+    flex-shrink: 0; /* Чтобы сам фильтр не сжимался */
+}

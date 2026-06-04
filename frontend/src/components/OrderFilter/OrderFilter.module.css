@@ -1,0 +1,38 @@
+.tabContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;             /* Чуть меньше отступ, чтобы было больше места */
+    width: 100%;          
+    padding: 10px 0;
+    
+    /* Самое важное для сжатия: */
+    flex-wrap: nowrap;    /* Не переносим на новую строку */
+    min-width: 0;         /* Разрешаем контейнеру сжиматься */
+}
+
+.tabContainer button {
+    /* Разрешаем кнопкам сжиматься: */
+    flex-shrink: 1;       
+    flex-grow: 1;         /* Кнопки будут расти, чтобы заполнить ширину */
+    
+    /* Минимальный размер, до которого кнопка может сжаться */
+    min-width: 40px;      
+    
+    padding: 8px 6px;     /* Уменьшаем padding, чтобы они стали компактнее */
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    
+    /* Сжимаем текст, если совсем тесно */
+    font-size: 12px;      
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Если кнопка совсем мелкая, текст станет "..." */
+}
+
+.tabContainer button.active {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}

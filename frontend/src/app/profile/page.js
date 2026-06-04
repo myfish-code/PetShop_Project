@@ -1,13 +1,26 @@
 import styles from "./page.module.css"
-import { User, Mail, Phone, Edit2 } from 'lucide-react';
-import { getUserProfile } from '@/api/users';
+
+import { revalidatePath } from 'next/cache';
+
+import { User, Mail, Phone } from 'lucide-react';
+
+import { getUserProfile, updateUserProfile } from '@/api/users';
+
 import GoogleLoginPage from "@/components/GoogleLoginPage/GoogleLoginPage";
+import ErrorWindow from "@/components/ErrorWindow/ErrorWindow";
+import EditProfileModal from "@/components/EditProfileModal/EditProfileModal";
 
 export default async function ProfilePage() {
+
+    async function updateProfileAction(first_name, last_name, phone) {
+        'use server'; 
+        await updateUserProfile(first_name, last_name, phone);
+        revalidatePath('/profile');
+    }
+    
     try {
-        const data = await getUserProfile();
-        const user = data.user
-        
+        let data = await getUserProfile();
+        let user = data.user
         const initials = `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
         
         return (
@@ -16,15 +29,14 @@ export default async function ProfilePage() {
                     <div className={styles.headerRow}>
                         <div className={styles.userHead}>
                             {user.avatar_url ? (
-                                <img src={user.avatar_url} alt="Avatar" className={styles.avatar} />
+                                <img src={user.avatar_url} alt="Avatar" className={styles.avatar} referrerPolicy="no-referrer"/>
                             ) : (
                                 <div className={styles.avatarPlaceholder}>{initials}</div>
                             )}
                             <h2 className={styles.subtitle}>Особисті дані</h2>
                         </div>
-                        <button className={styles.editButton}>
-                            <Edit2 size={16} /> Редагувати
-                        </button>
+                        
+                        <EditProfileModal user={user} onUpdate={updateProfileAction}/>
                     </div>
 
                     <div className={styles.infoGrid}>
@@ -49,8 +61,10 @@ export default async function ProfilePage() {
             </div>
         );
     } catch (error) {
-        return (
-            <GoogleLoginPage />
-        );
+        if (error.message === "TOKEN_EXPIRED") {
+            return <GoogleLoginPage />
+        } else {
+            return <ErrorWindow error={error}/>
+        }
     }
 }

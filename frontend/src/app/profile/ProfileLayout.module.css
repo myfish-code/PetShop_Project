@@ -35,6 +35,9 @@
     color: #2563eb;           /* Яркий синий цвет текста */
 }
 
+.nav a:active {
+    scale: 0.96;
+}
 /* Активное состояние: выделяем цветом и контуром */
 .active {
     background-color: #ebf2ff !important; /* Явный синий фон */
@@ -82,7 +85,15 @@
 
 @media (max-width: 450px) {
     .nav a {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         
+    }
+
+    .layout {
+        padding: 40px 10px;
+    }
+
+    .content {
+        padding: auto 3px;
     }
 }

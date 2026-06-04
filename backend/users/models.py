@@ -6,7 +6,7 @@ class User(AbstractUser):
     avatar_url = models.URLField(max_length=500, blank=True, null=True)
     
     email = models.EmailField(unique=True)
-    
+    phone = models.CharField(max_length=20, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'

@@ -1,13 +1,24 @@
-.main {
+.container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  min-height: calc(100vh - 4rem);
+  padding: 20px;
 }
 
-.grid {
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+.productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1px;
-  padding: 1rem;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 6px; 
+}
+
+@media (min-width: 768px) {
+  .productGrid {
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 24px;
+  }
 }

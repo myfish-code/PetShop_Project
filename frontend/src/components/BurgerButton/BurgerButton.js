@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Menu, X, ShoppingCart, User } from 'lucide-react';
 import styles from './BurgerButton.module.css';
 
+import CartIcon from '../Header/CartIcon/CartIcon';
 export default function BurgerButton() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,14 +19,15 @@ export default function BurgerButton() {
 
       <nav className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuOpen : ''}`}>
         <div className={styles.menuContent}>
+          <Link href="/" onClick={() => setIsOpen(false)} className={styles.menuLink}>Головна</Link>
           <Link href="/catalog" onClick={() => setIsOpen(false)} className={styles.menuLink}>Каталог</Link>
-          <Link href="/about" onClick={() => setIsOpen(false)} className={styles.menuLink}>Про нас</Link>
-          <Link href="/delivery" onClick={() => setIsOpen(false)} className={styles.menuLink}>Доставка</Link>
+          <Link href="/profile/addresses" onClick={() => setIsOpen(false)} className={styles.menuLink}>Доставка</Link>
           <hr className={styles.divider} />
 
-          <Link href="/cart" onClick={() => setIsOpen(false)} className={styles.menuLinkWithIcon}>
+          {/*<Link href="/cart" onClick={() => setIsOpen(false)} className={styles.menuLinkWithIcon}>
             <ShoppingCart size={20} /> Кошик
           </Link>
+          */}
           <Link href="/profile" onClick={() => setIsOpen(false)} className={styles.menuLinkWithIcon}>
             <User size={20} /> Профіль
           </Link>

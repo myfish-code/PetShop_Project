@@ -1,0 +1,89 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.productWrapper {
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .productWrapper {
+        flex-direction: row;
+    }
+}
+
+.image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    object-fit: contain;
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #16a34a;
+}
+
+.oldPrice {
+    text-decoration: line-through;
+    color: #9ca3af;
+    font-size: 1.2rem;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.buyNowBtn {
+    padding: 12px 24px;
+    border: 1px solid #16a34a;
+    background: white;
+    color: #16a34a;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buyNowBtn:hover {
+    background: #f0fdf4;
+}
+
+.stock {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    color: #6b7280; 
+    font-size: 0.9rem;
+    text-decoration: none;
+    background: #f3f4f6; 
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.backButton:hover {
+    color: #16a34a; 
+    background: #ecfdf5;
+    cursor: pointer;
+}

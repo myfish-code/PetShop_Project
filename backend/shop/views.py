@@ -7,34 +7,31 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from shop.models import Product, Category, Cart, CartItem, Order, OrderItem
-from shop.serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer, OrderListSerializer
+from shop.serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer
 
 class ProductListAPIView(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request):
-        products = Product.objects.filter(is_available=True)
+        products = Product.objects.filter(is_available=True).select_related('category')
 
-        categories_param = request.query_params.get('categories')
+        category_slug = request.query_params.get('category')
         
-        if categories_param:
-            slug_list = categories_param.split(',')
-            products = products.filter(category__slug__in=slug_list)
+        if category_slug:
+            products = products.filter(category__slug=category_slug)
 
-        min_price = request.query_params.get('min_price')
-        if min_price and min_price.isdigit():
-            products = products.filter(price__gte=min_price)
+        categories = Category.objects.all()
 
-        products_serializer = ProductSerializer(products, many=True).data
         return Response({
-            "categories": CategorySerializer(Category.objects.all(), many=True).data,
-            "products": products_serializer
+            "categories": CategorySerializer(categories, many=True).data,
+            "products": ProductSerializer(products, many=True).data
         }, status=status.HTTP_200_OK)
 
 
 class ProductDetailAPIView(APIView):
     permission_classes = [AllowAny]
-    def get(self, request, slug):
-        product = get_object_or_404(Product, slug=slug, is_available=True)
+    def get(self, request, productId):
+        product = get_object_or_404(Product, id=productId)
         
         product_serializer = ProductSerializer(product).data
 
@@ -112,18 +109,19 @@ class OrderManageAPIView(APIView):
     def get(self, request, order_id=None):
         if order_id:
             order = get_object_or_404(Order, pk=order_id, user=request.user)
-            order_serializer = OrderSerializer(order).data
-
-            return Response({
-                "order": order_serializer
-            }, status=status.HTTP_200_OK)
+            return Response({"order": OrderSerializer(order).data}, status=status.HTTP_200_OK)
         
-        orders = Order.objects.filter(user=request.user)
-        orders_serializer = OrderListSerializer(orders, many=True).data
-
-        return Response({
-            "orders": orders_serializer
-        }, status=status.HTTP_200_OK)
+        # Получаем статус из query-параметров (например, /orders/?status=new)
+        status_filter = request.query_params.get('status')
+        orders = Order.objects.filter(user=request.user).prefetch_related('items__product')
+        
+        # Фильтруем, если статус передан и он валидный
+        if status_filter:
+            orders = orders.filter(status=status_filter)
+            
+        orders_serializer = OrderSerializer(orders, many=True).data
+    
+        return Response({"orders": orders_serializer}, status=status.HTTP_200_OK)
 
     def post(self, request):
         cart = Cart.objects.filter(user=request.user).prefetch_related('items__product').first()

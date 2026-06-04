@@ -1,0 +1,73 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.catalogHeader {
+    margin-bottom: 30px;
+}
+
+.catalogHeader h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+/* Горизонтальный скролл для категорий */
+.categoryGrid {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    overflow-x: auto; /* Скролл на мобилках */
+    padding-bottom: 10px;
+    scrollbar-width: none; /* Скрывает полосу прокрутки в Firefox */
+}
+
+.categoryGrid::-webkit-scrollbar {
+    display: none; /* Скрывает полосу прокрутки в Chrome/Safari */
+}
+
+.catBtn, .active {
+    padding: 10px 20px;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap; /* Чтобы название категории не переносилось */
+    transition: all 0.2s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.catBtn {
+    background: white;
+    color: #374151;
+}
+
+.catBtn:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.catBtn:active {
+    scale: 0.96;
+}
+
+.active {
+    background: #16a34a; /* Твой зеленый цвет */
+    color: white;
+    border-color: #16a34a;
+    font-weight: 500;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 6px; 
+}
+
+@media (min-width: 768px) {
+    .productGrid {
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 24px;
+    }
+}

@@ -1,6 +1,6 @@
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -54,26 +54,6 @@
     color: white;
 }
 
-.editButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    color: #475569;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.editButton:hover {
-    background: #eff6ff;
-    color: #2563eb;
-    border-color: #bfdbfe;
-}
-
 .infoGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -101,5 +81,33 @@
 @media (max-width: 600px) {
     .infoGrid {
         grid-template-columns: 1fr;
+    }
+    .avatar {
+        width: 50px;
+        height: 50px;
+    }
+    .subtitle {
+        font-size: 1.5rem;
+    }
+    .container {
+        padding: 10px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+    }
+    .subtitle {
+        font-size: 1.25rem;
+    }
+    .container {
+        padding: 0px;
+    }
+    .userHead {
+        gap:10px;
     }
 }

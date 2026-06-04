@@ -31,11 +31,10 @@ class CartAdmin(admin.ModelAdmin):
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    extra = 0
+    extra = 1 # Оставь 1, чтобы поле для нового товара было сразу доступно
     raw_id_fields = ['product']
-
-    readonly_fields = ['price', 'quantity'] 
-
+    # УБРАЛИ readonly_fields, чтобы мы могли вводить данные
+    # Если хочешь, чтобы цена подтягивалась сама, лучше сделать это логикой модели или save_formset
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -44,5 +43,13 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'first_name', 'last_name', 'phone', 'address', 'user__email']
     list_editable = ['status']  
     inlines = [OrderItemInline]
+    readonly_fields = [ 'created_at', 'updated_at']
 
-    readonly_fields = ['total_cost', 'created_at', 'updated_at']
+    # ЭТОТ МЕТОД ПОДТЯНЕТ ЦЕНУ ИЗ ТОВАРА АВТОМАТИЧЕСКИ
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        for instance in instances:
+            if not instance.price and instance.product:
+                instance.price = instance.product.price
+            instance.save()
+        formset.save_m2m()

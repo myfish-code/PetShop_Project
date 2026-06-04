@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   /* Видаляємо max-width: 300px, щоб картка була гнучкою в сітці */
   padding: 1rem;
   border: 1px solid #e5e7eb;
@@ -44,7 +45,8 @@
 /* Адаптивне зображення */
 .image {
   width: 100%;
-  height: 180px; /* Трохи менша висота для кращого вигляду на мобільних */
+  aspect-ratio: 1 / 1; /* Картинка всегда квадратная */
+  height: auto;        /* Убираем фиксированные 180px */
   object-fit: contain;
   background-color: #fcfcfc;
   border-radius: 12px;
@@ -52,13 +54,17 @@
 }
 
 .name {
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* Чуть меньше для мобильных */
   font-weight: 600;
-  margin: 0 0 1rem 0;
-  line-height: 1.4;
-  height: 2.7rem;
+  margin: 0 0 auto 0; /* Автоматический отступ, чтобы цена прижалась к низу */
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;/* Ограничение в 2 строки */
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  color: #1f2937;
+  height: auto; /* Убираем фиксированные 2.7rem */
 }
 
 .priceBlock {

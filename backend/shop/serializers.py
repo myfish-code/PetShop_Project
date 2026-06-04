@@ -49,24 +49,20 @@ class CartSerializer(serializers.ModelSerializer):
     
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+    product_name = serializers.CharField(source='product.name', read_only=True)
 
     class Meta:
         model = OrderItem
-        fields = ['product', 'price', 'quantity']
+        fields = ['id', 'product', 'product_name', 'price', 'quantity']
 
 class OrderSerializer(serializers.ModelSerializer):
+    # Убираем read_only=True, если хотим иметь гибкость
     items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
         fields = [
-            'id', 'user', 'first_name', 'last_name', 'phone', 
-            'address', 'status', 'total_cost', 'created_at', 'items'
+            'id', 'status', 'total_cost', 'created_at', 
+            'address', 'phone', 'items'
         ]
-        read_only_fields = ['user', 'status', 'total_cost', 'created_at']
 
-class OrderListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ['id', 'status', 'total_cost', 'created_at']

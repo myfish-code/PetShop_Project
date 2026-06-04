@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { ShoppingCart, User } from 'lucide-react';
+import {User } from 'lucide-react';
 import BurgerButton from '../BurgerButton/BurgerButton';
+import CartIcon from './CartIcon/CartIcon';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -10,7 +11,9 @@ export default function Header() {
         <BurgerButton />
         
         <Link href="/" className={styles.logo}>PetShop</Link>
-
+        <Link href="/catalog" className={styles.catalogLink}>
+          Каталог
+        </Link>
         <div className={styles.searchContainer}>
           <input type="text" placeholder="Пошук товарів..." className={styles.searchInput} />
         </div>
@@ -19,10 +22,7 @@ export default function Header() {
           <Link href="/profile" className={styles.iconButton}>
             <User size={24} className={styles.icon} />
           </Link>
-          <Link href="/cart" className={styles.cartButton}>
-            <ShoppingCart size={24} className={styles.icon} />
-            <span className={styles.cartBadge}>0</span>
-          </Link>
+          <CartIcon className={styles.cartButton}/>
         </div>
       </div>
     </header>

@@ -9,7 +9,7 @@
     border: none;
     cursor: pointer;
     position: relative;
-    z-index: 101;
+    z-index: 1001;
 }
 
 @media (min-width: 769px) {
@@ -28,7 +28,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 99;
+    z-index: 999;
 }
 
 .overlayOpen {
@@ -40,7 +40,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
     width: 280px;
     height: 100%;
     background: var(--header-bg);

@@ -1,28 +1,21 @@
 import { cookies } from 'next/headers';
-import { refreshToken } from '../auth';
+import { refreshAndRetry } from '../actions';
 
 export async function privateRequest(url, method = "GET", data = null) {
     const cookieStore = await cookies();
-    const accessToken = cookieStore.get('access')?.value;
+    let accessToken = cookieStore.get('access')?.value;
     const refresh = cookieStore.get('refresh')?.value;
 
-    if (!accessToken || !refresh) {
-        cookieStore.delete('access');
-        cookieStore.delete('refresh');
-        throw new Error("TOKEN_EXPIRED");
-    }
-    const headers = { 
+    const headers = {
         "Content-Type": "application/json",
         ...(accessToken ? { "Authorization": `Bearer ${accessToken}` } : {})
     };
 
-    let body = data ? (data instanceof FormData ? data : JSON.stringify(data)) : null;
-
     const sendRequest = async (token) => {
-        return await fetch(url, { 
-            method, 
-            headers: { ...headers, "Authorization": `Bearer ${token}` }, 
-            body 
+        return await fetch(url, {
+            method,
+            headers: { ...headers, "Authorization": `Bearer ${token}` },
+            body: data ? JSON.stringify(data) : null
         });
     };
 
@@ -30,26 +23,26 @@ export async function privateRequest(url, method = "GET", data = null) {
 
     if (res.status === 401 && refresh) {
         try {
-            const tokenData = await refreshToken(refresh);
-            
-            (await cookies()).set('access', tokenData.access, { 
-                maxAge: 60 * 60 * 24 * 7, 
-                path: '/',
-                httpOnly: true
-            });
-
-            res = await sendRequest(tokenData.access);
+            accessToken = await refreshAndRetry();
+            res = await sendRequest(accessToken);
         } catch {
-            cookieStore.delete('access');
-            cookieStore.delete('refresh');
-            throw new Error("TOKEN_EXPIRED");
+            const error = new Error("TOKEN_EXPIRED");
+            error.status = 401; // Явно указываем, что это ошибка авторизации
+            error.details = "Failed to refresh token";
+            throw error;
         }
     }
 
-    if (!res.ok) throw new Error("API_ERROR");
-    return res.status === 204 ? {} : await res.json();
-}
+    if (res.ok) {
+        return res.status === 204 ? {} : await res.json();
+    }
 
+    const error = new Error(res.status === 401 ? "TOKEN_EXPIRED" : "API_ERROR");
+    error.status = res.status;
+    error.details = await res.json().catch(() => ({}));
+
+    throw error;
+}
 
 export const privateGet = (url) => privateRequest(url, "GET");
 export const privatePost = (url, data) => privateRequest(url, "POST", data);

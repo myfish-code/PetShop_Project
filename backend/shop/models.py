@@ -57,8 +57,7 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('new', 'Новый'),
-        ('paid', 'Оплачен'),
+        ('active', 'Активний'),
         ('shipped', 'Доставлен'),
         ('canceled', 'Отменен'),
     ]
